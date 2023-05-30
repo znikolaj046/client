@@ -9,7 +9,7 @@ const SmartFilter = observer(() => {
     const [checked, setChecked] = useState([]);
 
     const handleCheck = (event) => {
-        var updatedList = [...checked];
+        let updatedList = [...checked];
         if (event.target.checked) {
           updatedList = [...checked, event.target.value];
         } else {

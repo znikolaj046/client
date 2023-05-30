@@ -33,8 +33,8 @@ export const fetchCategories = async () => {
     return data
 }
 
-export const fetchCategory = async (id) => {
-    const { data } = await guestInstance.get(`category/getone/${id}`)
+export const fetchCategory = async (alias) => {    
+    const { data } = await guestInstance.get(`category/getone/${alias}`)
     return data
 }
 

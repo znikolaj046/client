@@ -1,7 +1,7 @@
 import { Container, Button } from 'react-bootstrap'
 import { useContext } from 'react'
 import { AppContext } from '../components/AppContext.js'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { logout } from '../http/userAPI.js'
 
 const User = () => {
@@ -20,6 +20,10 @@ const User = () => {
             <p>
                 Это личный кабинет постоянного покупателя магазина
             </p>
+            <ul>
+            <li><Link to="/user/data">Личные данные</Link></li>
+                <li><Link to="/user/orders">История заказов</Link></li>                
+            </ul>
             <Button onClick={handleLogout}>Выйти</Button>
         </Container>
     )

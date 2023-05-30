@@ -1,15 +1,14 @@
 import { Table } from 'react-bootstrap'
 
 const Order = (props) => {
+    
     return (
         <>
             <ul>
                 <li>Дата заказа: {props.data.prettyCreatedAt}</li>
                 <li>
                     Статус заказа:
-                    {props.data.status === 0 && <span>Новый</span>}
-                    {props.data.status === 1 && <span>В работе</span>}
-                    {props.data.status === 2 && <span>Завершен</span>}
+                    {props.data.order_status.name}
                 </li>
             </ul>
             <ul>

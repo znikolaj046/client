@@ -15,11 +15,11 @@ const Product = () => {
 
     useEffect(() => {
         fetchOneProduct(id).then(data => setProduct(data))
+        
     }, [id])
 
     const handleClick = (productId, price) => {
         append(productId, price).then(data => {
-            console.log(data)
             basket.products = data.products
             setModalActive(true);  
         })        
@@ -31,7 +31,11 @@ const Product = () => {
 
     if (!product) {
         return <Spinner animation="border" />
+    } else {
+        document.title = product.name
     }
+
+    
 
     return (
         <Container>

@@ -4,18 +4,30 @@ import BrandBar from '../components/BrandBar.js'
 import SmartFilter from '../components/SmartFilter.js'
 import ProductList from '../components/ProductList.js'
 import { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { AppContext } from '../components/AppContext.js'
-import { fetchAllProperties, fetchCategories, fetchBrands, fetchAllProducts } from '../http/catalogAPI.js'
+import { fetchAllProperties, fetchCategory, fetchCategories, fetchBrands, fetchAllProducts } from '../http/catalogAPI.js'
 import { observer } from 'mobx-react-lite'
 
-const Shop = observer(() => {
+const Shop = observer(() => {    
+    const { alias } =  useParams()
     const { catalog } = useContext(AppContext)
+    const [category, setCategory] = useState(null)    
+    const [categoryFetching, setCategoryFetching] = useState(true)
     const [categoriesFetching, setCategoriesFetching] = useState(true)
     const [brandsFetching, setBrandsFetching] = useState(true)
     const [productsFetching, setProductsFetching] = useState(true)
     const [propertiesFetching, setPropertiesFetching] = useState(true)
 
     useEffect(() => {
+
+        fetchCategory(alias)
+            .then(data => setCategory(data))            
+            .finally(() => setCategoryFetching(false))
+
+        if (category !== null) {
+            document.title = category.name
+        }
 
         fetchAllProperties()
             .then(data => catalog.properties = data)
@@ -35,9 +47,10 @@ const Shop = observer(() => {
                 catalog.count = data.count
             })
             .finally(() => setProductsFetching(false))
-    }, [])
+    },[alias])
 
     useEffect(() => {
+        
         setProductsFetching(true)
         fetchAllProducts(catalog.category, catalog.filter, catalog.brand, catalog.page, catalog.limit)
             .then(data => {
@@ -47,7 +60,14 @@ const Shop = observer(() => {
             .finally(() => setProductsFetching(false))
     }, [catalog.category, catalog.filter, catalog.brand, catalog.page])
 
-    return (
+    
+    if (!category) {
+        return <Spinner animation="border" />
+    } else {
+        document.title = category.name
+    }
+
+    return (                
         <Container>
             <Row className="mt-2">
                 <Col md={3} className="mb-3">

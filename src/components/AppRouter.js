@@ -26,7 +26,7 @@ import { observer } from 'mobx-react-lite'
 
 const publicRoutes = [
     {path: '/', Component: Home},
-    {path: '/catalog', Component: Shop},
+    {path: '/catalog/:alias', Component: Shop},
     {path: '/filter/*', Component: Filter},
     {path: '/login', Component: Login},
     {path: '/signup', Component: Signup},

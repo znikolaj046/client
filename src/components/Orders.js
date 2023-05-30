@@ -29,7 +29,7 @@ const Orders = (props) => {
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
-                        <td>{item.status}</td>
+                        <td>{item.order_status.name}</td>
                         <td>{item.amount}</td>
                         <td>
                             {props.admin ? (
