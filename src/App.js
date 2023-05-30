@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom'
+import AppRouter from './components/AppRouter.js'
+import NavBar from './components/NavBar.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { AppContext } from './components/AppContext.js'
+import { check as checkAuth } from './http/userAPI.js'
+import { useState, useContext, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import Loader from './components/Loader.js'
+import { useCookies } from 'react-cookie';
 
-export default App;
+import { fetchBasket } from './http/basketAPI.js'
+
+import axios from 'axios'
+
+const App = observer(() => {
+    const { user, basket } = useContext(AppContext)
+    const [loading, setLoading] = useState(true)
+    const [cookies, setCookie] = useCookies(['name']);
+
+    useEffect(() => {
+        Promise.all([checkAuth(), fetchBasket()])
+            .then(
+                axios.spread((userData, basketData) => {
+                    if (userData) {
+                        user.login(userData)
+                    }
+                    basket.products = basketData.products
+                })
+            )
+            .finally(
+                () => setLoading(false)
+            )
+    }, [])
+
+    // показываем loader, пока получаем пользователя и корзину
+    if (loading) {
+        return <Loader />
+    }
+
+    return (
+        <BrowserRouter>
+            <NavBar />
+            <AppRouter />
+        </BrowserRouter>
+    )
+})
+
+export default App
