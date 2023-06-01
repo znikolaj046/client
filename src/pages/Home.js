@@ -18,6 +18,8 @@ const Home = observer(() => {
 
     useEffect(() => {
 
+        catalog.category = null
+
         fetchAllProperties()
             .then(data => catalog.properties = data)
             .finally(() => setPropertiesFetching(false))

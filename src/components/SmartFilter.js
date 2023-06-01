@@ -25,7 +25,8 @@ const SmartFilter = observer(() => {
         <div>
             {catalog.properties.map(item =>
                 <div key={item.id}>
-                    <strong>{item.name}</strong>
+                    
+                    {item.values.length > 0 ? (<strong>{item.name}</strong>) : ('')}
                     {item.values.map(value =>
 
                         <label style={{display:'block'}} key={item.id + '-is-' + base64.encode(value)}>

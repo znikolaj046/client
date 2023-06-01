@@ -22,7 +22,6 @@ class CatalogStore {
     }
 
     get filter() {
-        console.log(this._filter)
         return this._filter
     }
 

@@ -6,7 +6,8 @@ export const fetchAllProperties = async () => {
 }
 
 export const fetchProperties = async (id) => {
-    const { data } = await authInstance.get(`/category/${id}/property/getall/`)
+    console.log(`/category/${id}/property/getvalues/`)
+    const { data } = await authInstance.get(`/category/${id}/property/getvalues/`)
     return data
 }
 
@@ -37,6 +38,12 @@ export const fetchCategory = async (alias) => {
     const { data } = await guestInstance.get(`category/getone/${alias}`)
     return data
 }
+
+export const fetchPage = async (alias) => {    
+    const { data } = await guestInstance.get(`pages/getone/${alias}`)
+    return data
+}
+
 
 /*
  * Создание, обновление и удаление бренда, получение списка всех брендов

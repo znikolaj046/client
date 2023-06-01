@@ -6,10 +6,10 @@ import ProductList from '../components/ProductList.js'
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../components/AppContext.js'
-import { fetchAllProperties, fetchCategory, fetchCategories, fetchBrands, fetchAllProducts } from '../http/catalogAPI.js'
+import { fetchProperties, fetchAllProperties, fetchCategory, fetchCategories, fetchBrands, fetchAllProducts } from '../http/catalogAPI.js'
 import { observer } from 'mobx-react-lite'
 
-const Shop = observer(() => {    
+const Shop = () => {    
     const { alias } =  useParams()
     const { catalog } = useContext(AppContext)
     const [category, setCategory] = useState(null)    
@@ -25,13 +25,6 @@ const Shop = observer(() => {
             .then(data => setCategory(data))            
             .finally(() => setCategoryFetching(false))
 
-        if (category !== null) {
-            document.title = category.name
-        }
-
-        fetchAllProperties()
-            .then(data => catalog.properties = data)
-            .finally(() => setPropertiesFetching(false))
 
         fetchCategories()
             .then(data => catalog.categories = data)
@@ -41,16 +34,29 @@ const Shop = observer(() => {
             .then(data => catalog.brands = data)
             .finally(() => setBrandsFetching(false))
 
-        fetchAllProducts(null, null, null, 1, catalog.limit)
-            .then(data => {
-                catalog.products = data.rows
-                catalog.count = data.count
-            })
-            .finally(() => setProductsFetching(false))
+        if(category !== null) {
+            
+            fetchProperties(category.id)
+                .then(data => catalog.properties = data)
+                .finally(() => setPropertiesFetching(false))
+
+
+            fetchAllProducts(category.id, null, null, 1, catalog.limit)
+                .then(data => {
+                    catalog.products = data.rows
+                    catalog.count = data.count
+                })
+                .finally(() => setProductsFetching(false))
+        }    
     },[alias])
 
     useEffect(() => {
         
+        fetchProperties(catalog.category)
+            .then(data => catalog.properties = data)
+            .finally(() => setPropertiesFetching(false))
+
+
         setProductsFetching(true)
         fetchAllProducts(catalog.category, catalog.filter, catalog.brand, catalog.page, catalog.limit)
             .then(data => {
@@ -65,6 +71,7 @@ const Shop = observer(() => {
         return <Spinner animation="border" />
     } else {
         document.title = category.name
+        catalog.category = category.id
     }
 
     return (                
@@ -107,6 +114,6 @@ const Shop = observer(() => {
             </Row>
         </Container>
     )
-})
+}
 
 export default Shop

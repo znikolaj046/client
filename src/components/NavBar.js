@@ -13,8 +13,8 @@ const NavBar = observer(() => {
             <Container>
                 <NavLink to="/" className="navbar-brand">Магазин</NavLink>
                 <Nav className="ml-auto">
-                    <NavLink to="/delivery" className="nav-link">Доставка</NavLink>
-                    <NavLink to="/contacts" className="nav-link">Контакты</NavLink>
+                    <NavLink to="/pages/dostavka" className="nav-link">Доставка</NavLink>
+                    <NavLink to="/pages/contacts" className="nav-link">Контакты</NavLink>
                     <CheckAuth>
                         {user.isAuth ? (
                             <NavLink to="/user" className="nav-link">Личный кабинет</NavLink>

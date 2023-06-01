@@ -10,6 +10,7 @@ import Contacts from '../pages/Contacts.js'
 import NotFound from '../pages/NotFound.js'
 import Home from '../pages/Home.js'
 import Filter from '../pages/Filter.js'
+import Pages from '../pages/Pages.js'
 import User from '../pages/User.js'
 import UserOrders from '../pages/UserOrders.js'
 import UserOrder from '../pages/UserOrder.js'
@@ -27,6 +28,7 @@ import { observer } from 'mobx-react-lite'
 const publicRoutes = [
     {path: '/', Component: Home},
     {path: '/catalog/:alias', Component: Shop},
+    {path: '/pages/:alias', Component: Pages},
     {path: '/filter/*', Component: Filter},
     {path: '/login', Component: Login},
     {path: '/signup', Component: Signup},
